@@ -2,6 +2,8 @@ class TestsController < ApplicationController
   def new
     @send_message = SendMessage.new
     @receive_messages = ReceiveMessage.all
+    @mentor = Mentor.new
+    @mentors = Mentor.all
   end
   
   def create
@@ -30,9 +32,17 @@ class TestsController < ApplicationController
     client.push_message(message.user_id, msg)
   end
   
+  def mentor_create
+    @mentor = Mentor.create(mentor_params)
+  end
+  
   
   private
   def send_message_params
     params.require(:send_message).permit(:user_id, :message_type, :message_text, :mentor_id)
+  end
+  
+  def mentor_params
+    params.require(:mentor).permit(:name, :icon_url)
   end
 end

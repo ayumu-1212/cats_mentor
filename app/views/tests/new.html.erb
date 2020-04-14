@@ -16,7 +16,26 @@
   <% end %>
 </div>
 
+<div class="row">
+  <%= form_with model: @mentor, url: mentor_create_tests_path, method: :post do |f| %>
+  <div class="form-group">
+    <label class="label">メンター名</label>
+    <%= f.text_field :name, class: "input" %>
+  </div>
+  <div class="form-group">
+    <label class="label">アイコン画像url</label>
+    <%= f.text_field :icon_url, class: "input" %>
+  </div>
+    <%= f.submit "保存", class: "button is-primary" %>
+  <% end %>
+</div>
+
+
 
 <% @receive_messages.each do |message| %>
 <%= message.user_id %>
+<% end %>
+
+<% @mentors.each do |mentor| %>
+<%= mentor.name %>
 <% end %>
