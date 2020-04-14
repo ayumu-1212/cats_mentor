@@ -1,7 +1,7 @@
 class LinebotController < ApplicationController
   require 'line/bot'
 
-  protect_from_forgery :except => [:receive]
+  protect_from_forgery :except => [:callback]
 
   def client
     @client ||= Line::Bot::Client.new { |config|
@@ -10,7 +10,7 @@ class LinebotController < ApplicationController
     }
   end
 
-  def receive
+  def callback
     body = request.body.read
 
     signature = request.env['HTTP_X_LINE_SIGNATURE']
