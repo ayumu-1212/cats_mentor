@@ -6,7 +6,7 @@ class TestsController < ApplicationController
   
   def create
 
-    message = SendMessage.new(message_params)
+    message = SendMessage.new(send_message_params)
     message.message_type = "text"
 
     if message.save
