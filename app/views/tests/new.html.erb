@@ -1,1 +1,22 @@
-<h1>ようこそここはにゅうぺいじだよ！</h1>
+<div class="row">
+  <%= form_with model: @send_message, url: tests_path, method: :post do |f| %>
+  <div class="form-group">
+    <label class="label">メンター</label>
+    <%= f.text_field :mentor_id, class: "input" %>
+  </div>
+  <div class="form-group">
+    <label class="label">送信ユーザー</label>
+    <%= f.text_field :user_id, class: "input" %>
+  </div>
+  <div class="form-group">
+    <label class="label">メッセージ内容</label>
+    <%= f.text_field :message_text, class: "input" %>
+  </div>
+    <%= f.submit "保存", class: "button is-primary" %>
+  <% end %>
+</div>
+
+
+<% @receive_messages.each do |message| %>
+<%= message.user_id %>
+<% end %>

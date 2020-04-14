@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_13_105948) do
+ActiveRecord::Schema.define(version: 2020_04_14_122822) do
+
+  create_table "mentors", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "name"
+    t.string "icon_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "receive_messages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "user_id"
@@ -18,6 +25,16 @@ ActiveRecord::Schema.define(version: 2020_04_13_105948) do
     t.integer "message_id"
     t.string "message_type"
     t.text "message_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "send_messages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "user_id"
+    t.string "reply_token"
+    t.string "message_type"
+    t.text "message_text"
+    t.integer "mentor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

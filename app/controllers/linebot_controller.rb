@@ -1,7 +1,7 @@
 class LinebotController < ApplicationController
   require 'line/bot'
 
-  protect_from_forgery :except => [:callback]
+  protect_from_forgery :except => [:receive]
 
   def client
     @client ||= Line::Bot::Client.new { |config|
@@ -10,7 +10,7 @@ class LinebotController < ApplicationController
     }
   end
 
-  def callback
+  def receive
     body = request.body.read
 
     signature = request.env['HTTP_X_LINE_SIGNATURE']
@@ -21,15 +21,27 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each { |event|
+      userId = event['source']['userId']
+      replyToken = event['replyToken']
       case event
       when Line::Bot::Event::Message
-        case event.type
-        when Line::Bot::Event::MessageType::Text
+        case event['type']
+        when 'message'
+          messageId = event['message']['id']
+          messageType = event['message']['type']
+          messageText = event['message']['text']
           # LINEから送られてきたメッセージが「アンケート」と一致するかチェック
           if event.message['text'].eql?('アンケート')
             # private内のtemplateメソッドを呼び出します。
             client.reply_message(event['replyToken'], template)
           end
+          ReceiveMessage.create(
+            user_id: userId,
+            reply_token: replyToken,
+            message_id: messageId,
+            message_type: messageType,
+            message_text: messageText
+          )
         end
       end
     }
