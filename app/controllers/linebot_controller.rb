@@ -9,7 +9,7 @@ class LinebotController < ApplicationController
       config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     }
   end
-
+  
   def receive
     body = request.body.read
     events = client.parse_events_from(body)
@@ -23,6 +23,45 @@ class LinebotController < ApplicationController
           ReceiveMessage.create(
             user_id: userId
             )
+        end
+      end
+    }
+
+    head :ok
+  end
+
+  def receive
+    body = request.body.read
+
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    unless client.validate_signature(body, signature)
+      head :bad_request
+    end
+
+    events = client.parse_events_from(body)
+
+    events.each { |event|
+      userId = event['source']['userId']
+      replyToken = event['replyToken']
+      case event
+      when Line::Bot::Event::Message
+        case event['type']
+        when 'message'
+          messageId = event['message']['id']
+          messageType = event['message']['type']
+          messageText = event['message']['text']
+          # LINEから送られてきたメッセージが「アンケート」と一致するかチェック
+          if event.message['text'].eql?('アンケート')
+            # private内のtemplateメソッドを呼び出します。
+            client.reply_message(event['replyToken'], template)
+          end
+          ReceiveMessage.create(
+            user_id: userId,
+            reply_token: replyToken,
+            message_id: messageId,
+            message_type: messageType,
+            message_text: messageText
+          )
         end
       end
     }
