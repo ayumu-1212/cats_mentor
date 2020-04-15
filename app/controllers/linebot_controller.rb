@@ -51,10 +51,10 @@ class LinebotController < ApplicationController
           messageType = event['message']['type']
           messageText = event['message']['text']
           # LINEから送られてきたメッセージが「アンケート」と一致するかチェック
-          if event.message['text'].eql?('アンケート')
-            # private内のtemplateメソッドを呼び出します。
-            client.reply_message(event['replyToken'], template)
-          end
+          # if event.message['text'].eql?('アンケート')
+          #   # private内のtemplateメソッドを呼び出します。
+          #   client.reply_message(event['replyToken'], template)
+          # end
           ReceiveMessage.create(
             user_id: userId,
             reply_token: replyToken,
