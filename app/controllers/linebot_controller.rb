@@ -10,25 +10,25 @@ class LinebotController < ApplicationController
     }
   end
   
-  def receive
-    body = request.body.read
-    events = client.parse_events_from(body)
-    events.each { |event|
-      userId = event['source']['userId']
+  # def receive
+  #   body = request.body.read
+  #   events = client.parse_events_from(body)
+  #   events.each { |event|
+  #     userId = event['source']['userId']
 
-      case event
-      when Line::Bot::Event::Message
-        case event['type']
-        when 'message'
-          ReceiveMessage.create(
-            user_id: userId
-            )
-        end
-      end
-    }
+  #     case event
+  #     when Line::Bot::Event::Message
+  #       case event['type']
+  #       when 'message'
+  #         ReceiveMessage.create(
+  #           user_id: userId
+  #           )
+  #       end
+  #     end
+  #   }
 
-    head :ok
-  end
+  #   head :ok
+  # end
 
   def receive
     body = request.body.read
