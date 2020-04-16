@@ -34,6 +34,7 @@ class LinebotController < ApplicationController
           p messageText
           ReceiveMessage.create(
             user_id: userId,
+            message_id: messageId,
             message_type: messageType,
             message_text: messageText
             )
