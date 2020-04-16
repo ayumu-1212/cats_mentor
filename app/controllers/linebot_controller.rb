@@ -29,6 +29,9 @@ class LinebotController < ApplicationController
           messageId = event['message']['id']
           messageType = event['message']['type']
           messageText = event['message']['text']
+          p messageId
+          p messageType
+          p messageText
           ReceiveMessage.create(
             user_id: userId
             )
