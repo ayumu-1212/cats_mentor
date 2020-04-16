@@ -26,7 +26,7 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event['type']
         when 'message'
-          messageId = event['message']['id']
+          messageId = event['message']['id'].to_i
           messageType = event['message']['type']
           messageText = event['message']['text']
           p messageId
