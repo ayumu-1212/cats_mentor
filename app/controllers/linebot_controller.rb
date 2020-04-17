@@ -36,7 +36,8 @@ class LinebotController < ApplicationController
             user_id: userId,
             message_id: messageId,
             message_type: messageType,
-            message_text: messageText
+            message_text: messageText,
+            reply_token: replyToken
             )
         end
       end
